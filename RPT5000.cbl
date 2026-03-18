@@ -69,6 +69,7 @@
       **************************************************************    00590000
        01  CONTROL-FIELDS.                                              00600000
            05  OLD-BRANCH-NUMBER       PIC 99.                          00610000
+           05  OLD-SALESREP-NUMBER     PIC 99.                          00611005
                                                                         00620000
       **************************************************************    00630000
       * STORES INFORMATION RELEVANT TO THE PAGE                    *    00640000
@@ -224,8 +225,25 @@
            05  BTL-CHANGE-AMOUNT   PIC ZZZ,ZZ9.99-.                     02120000
            05  FILLER              PIC X(3)     VALUE SPACE.            02130000
            05  BTL-CHANGE-PERCENT  PIC ZZ9.9-.                          02140000
-           05  FILLER              PIC X(48)    VALUE " *".             02150000
+           05  FILLER              PIC X(48)    VALUE " **".            02150005
                                                                         02160000
+      **************************************************************    02161005
+      * STORES THE SALES REP TOTAL LINE                            *    02162005
+      * HOLDS THE TOTALS FOR THIS AND LAST YEAR-TO-DATE IN SALES   *    02163005
+      * FOR THIS REP AS WELL AS THE PERCENT DIFFERENCE             *    02164005
+      * USED FOR OUTPUTTING                                        *    02165005
+      **************************************************************    02166005
+       01  SALESREP-TOTAL-LINE                                          02167005
+           05  FILLER              PIC X(23)    VALUE SPACE.            02168005
+           05  FILLER              PIC X(14)    VALUE "SALESREP TOTAL". 02169005
+           05  BTL-SALES-THIS-YTD  PIC ZZZ,ZZ9.99-.                     02169105
+           05  FILLER              PIC X(3)     VALUE SPACE.            02169205
+           05  BTL-SALES-LAST-YTD  PIC ZZZ,ZZ9.99-.                     02169305
+           05  FILLER              PIC X(3)     VALUE SPACE.            02169405
+           05  BTL-CHANGE-AMOUNT   PIC ZZZ,ZZ9.99-.                     02169505
+           05  FILLER              PIC X(3)     VALUE SPACE.            02169605
+           05  BTL-CHANGE-PERCENT  PIC ZZ9.9-.                          02169705
+           05  FILLER              PIC X(48)    VALUE " *".             02169805
       **************************************************************    02170000
       * STORES THE SECOND GRAND TOTAL LINE                         *    02180000
       * HOLDS THE TOTAL SALES FOR THIS AND LAST YEAR-TO-DATE,      *    02190000
@@ -242,7 +260,7 @@
            05  GTL-CHANGE-AMOUNT   PIC Z,ZZZ,ZZ9.99-.                   02300000
            05  FILLER              PIC X(3)     VALUE SPACE.            02310000
            05  GTL-CHANGE-PERCENT  PIC ZZ9.9-.                          02320000
-           05  FILLER              PIC X(43)    VALUE " **".            02330000
+           05  FILLER              PIC X(43)    VALUE " ***".           02330005
                                                                         02340000
        PROCEDURE DIVISION.                                              02350000
                                                                         02360000
