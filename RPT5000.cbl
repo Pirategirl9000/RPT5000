@@ -157,7 +157,8 @@
       **************************************************************    01470000
        01  HEADING-LINE-4.                                              01480000
            05  FILLER      PIC X(8)    VALUE "BRANCH  ".                01490000
-           05  FILLER      PIC X(20)   VALUE "CUST                ".    01500000
+           05  FILLER      PIC X(8)    VALUE "SLSREP  ".                01491004
+           05  FILLER      PIC X(20)   VALUE "CUST                ".    01500002
            05  FILLER      PIC X(20)   VALUE "            SALES   ".    01510000
            05  FILLER      PIC X(20)   VALUE "      SALES         ".    01520000
            05  FILLER      PIC X(20)   VALUE "CHANGE     CHANGE   ".    01530000
@@ -170,6 +171,7 @@
       **************************************************************    01600000
        01  HEADING-LINE-5.                                              01610000
            05  FILLER      PIC X(8)    VALUE " NUM    ".                01620000
+           05  FILLER      PIC X(9)    VALUE " NUM     ".               01621004
            05  FILLER      PIC X(20)   VALUE "NUM    CUSTOMER NAME".    01630000
            05  FILLER      PIC X(20)   VALUE "           THIS YTD ".    01640000
            05  FILLER      PIC X(20)   VALUE "     LAST YTD       ".    01650000
