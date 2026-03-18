@@ -1,20 +1,21 @@
        IDENTIFICATION DIVISION.                                         00010000
                                                                         00020000
-       PROGRAM-ID. RPT3000.                                             00030000
+       PROGRAM-ID. RPT5000.                                             00030001
                                                                         00040000
       *   Programmers.: Violet French                                   00050000
-      *   Date........: 2026.02.19                                      00060000
-      *   Github URL..: https://github.com/Pirategirl9000/RPT3000       00070000
+      *   Date........: 2026.03.18                                      00060001
+      *   Github URL..: https://github.com/Pirategirl9000/RPT5000       00070001
       *   Description.: This program produces a sales report based on   00080000
       *   values acquired from the CUSTMAST dataset and produces        00090000
-      *   subtotals and grandtotals for the different branches          00091000
+      *   subtotals and grandtotals for the different branches and      00091001
+      *   sales representatives                                         00091101
        ENVIRONMENT DIVISION.                                            00092000
                                                                         00093000
        INPUT-OUTPUT SECTION.                                            00094000
                                                                         00095000
        FILE-CONTROL.                                                    00096000
            SELECT CUSTMAST ASSIGN TO CUSTMAST.                          00097000
-           SELECT ORPT3000 ASSIGN TO RPT3000.                           00098000
+           SELECT ORPT5000 ASSIGN TO RPT5000.                           00098001
                                                                         00099000
        DATA DIVISION.                                                   00100000
                                                                         00110000
@@ -40,7 +41,7 @@
       **************************************************************    00310000
       * OUTPUT FILE                                                *    00320000
       **************************************************************    00330000
-       FD  ORPT3000                                                     00340000
+       FD  ORPT5000                                                     00340001
            RECORDING MODE IS F                                          00350000
            LABEL RECORDS ARE STANDARD                                   00360000
            RECORD CONTAINS 130 CHARACTERS                               00370000
@@ -140,7 +141,7 @@
            05  FILLER          PIC X(1)    VALUE ":".                   01310000
            05  HL2-MINUTES     PIC 9(2).                                01320000
            05  FILLER          PIC X(68)   VALUE SPACE.                 01330000
-           05  FILLER          PIC X(10)   VALUE "RPT3000".             01340000
+           05  FILLER          PIC X(10)   VALUE "RPT5000".             01340001
            05  FILLER          PIC X(39)   VALUE SPACE.                 01350000
                                                                         01360000
       **************************************************************    01370000
@@ -250,7 +251,7 @@
        000-PREPARE-SALES-REPORT.                                        02410000
                                                                         02420000
            OPEN INPUT  CUSTMAST                                         02430000
-                OUTPUT ORPT3000.                                        02440000
+                OUTPUT ORPT5000.                                        02440001
                                                                         02450000
            *> GRABS THE DATE AND TIME INFORMATION FOR                   02460000
            *> THE HEADER LINES                                          02470000
@@ -265,7 +266,7 @@
            PERFORM 300-PRINT-GRAND-TOTALS.                              02560000
                                                                         02570000
            CLOSE CUSTMAST                                               02580000
-                 ORPT3000.                                              02590000
+                 ORPT5000.                                              02590001
            STOP RUN.                                                    02600000
                                                                         02610000
       **************************************************************    02620000
