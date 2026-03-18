@@ -85,10 +85,12 @@
       * STORES TOTAL FIELDS FOR CALCULATING                        *    00720000
       **************************************************************    00730000
        01  TOTAL-FIELDS.                                                00740000
-           05  BRANCH-TOTAL-THIS-YTD  PIC S9(6)V99   VALUE ZERO.        00750000
-           05  BRANCH-TOTAL-LAST-YTD  PIC S9(6)V99   VALUE ZERO.        00760000
-           05  GRAND-TOTAL-THIS-YTD   PIC S9(7)V99   VALUE ZERO.        00770000
-           05  GRAND-TOTAL-LAST-YTD   PIC S9(7)V99   VALUE ZERO.        00780000
+           05  BRANCH-TOTAL-THIS-YTD    PIC S9(6)V99   VALUE ZERO.      00750008
+           05  BRANCH-TOTAL-LAST-YTD    PIC S9(6)V99   VALUE ZERO.      00760008
+           05  SALESREP-TOTAL-THIS-YTD  PIC S9(6)V99   VALUE ZERO.      00781008
+           05  SALESREP-TOTAL-LAST-YTD  PIC S9(6)V99   VALUE ZERO.      00782008
+           05  GRAND-TOTAL-THIS-YTD     PIC S9(7)V99   VALUE ZERO.      00783008
+           05  GRAND-TOTAL-LAST-YTD     PIC S9(7)V99   VALUE ZERO.      00784008
                                                                         00790000
       **************************************************************    00800000
       * USED TO PULL IN THE CURRENT-DATE-TIME VIA THE FUNCTION     *    00810000
@@ -103,7 +105,7 @@
            05  FILLER          PIC X(9).                                00900000
                                                                         00910000
       **************************************************************    00920000
-      * STORES FIELDS WITH VALUES CALCULATED PER CUSTOMER         *     00930000
+      * STORES VALUES USED FOR CALCULATIONS                       *     00930008
       **************************************************************    00940000
        01  CALCULATED-FIELDS.                                           00950000
            05 CHANGE-AMOUNT    PIC S9(5)V99.                            00960000
