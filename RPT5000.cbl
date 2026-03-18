@@ -316,24 +316,41 @@
            *> GRAB THE NEXT LINE FROM THE CUSTOMER RECORD               02860000
            PERFORM 210-READ-CUSTOMER-RECORD.                            02870000
                                                                         02880000
-           *> IF THE LINE WE READ WASN'T BLANK THEN                     02890000
-           *> WE WILL OUTPUT THAT CUSTOMER'S SALES TO THE OUTPUT        02900000
-           *> NOTE: WE DON'T OUTPUT THE LAST LINE BECAUSE IT'S BLANK    02910000
-           IF CUSTMAST-EOF-SWITCH = "N"                                 02920000
-               IF FIRST-RECORD-SWITCH = "Y"                             02930000
-                   PERFORM 220-PRINT-CUSTOMER-LINE                      02940000
-                   MOVE "N" TO FIRST-RECORD-SWITCH                      02950000
-                   MOVE CM-BRANCH-NUMBER TO OLD-BRANCH-NUMBER           02960000
-               ELSE                                                     02970000
-                   IF CM-BRANCH-NUMBER > OLD-BRANCH-NUMBER              02980000
-                       PERFORM 240-PRINT-BRANCH-LINE                    02990000
-                       PERFORM 220-PRINT-CUSTOMER-LINE                  03000000
-                       MOVE CM-BRANCH-NUMBER TO OLD-BRANCH-NUMBER       03010000
-                   ELSE                                                 03020000
-                       PERFORM 220-PRINT-CUSTOMER-LINE                  03030000
-           ELSE                                                         03040000
-               PERFORM 240-PRINT-BRANCH-LINE.                           03050000
-                                                                        03060000
+           *> PERFORMS DUTIES BASED ON THE ENTRY                        02881006
+           *>  * IF WE RUN OUT OF DATA PRINT THE SALES AND BRANCH TOTALS02882006
+           *>  * IF IT'S THE FIRST RECORD PRINT THE CUSTOMER LINE AND   02883006
+           *>    STORE THE CURRENT SALESREP AND BRANCH NUMBER TO THE OLD02884006
+           *>  * IF THE BRANCH NUMBER IS GREATER THAN THE CURRENT ONE   02885006
+           *>    THEN PRINT THE SALES REP LINE, BRANCH TOTAL LINE, AND  02886006
+           *>    THEN THE NEW CUSTOMER'S LINE. AFTER UPDATE THE BRANCH  02887006
+           *>    AND SALESREP NUMBERS                                   02888006
+           *>  * IF THE SALES REP NUMBER IS GREATER THAN THE CURRENT ONE02889006
+           *>    PRINT SALES LINE THEN THE CURRENT CUSTOMER LINE AFTER  02889106
+           *>    UPDATE THE SALES REP NUMBER                            02889206
+           *>  * IF NOTHING ELSE JUST PRINT THE CUSTOMER RECORD         02889306
+           EVALUATE TRUE                                                02890006
+               WHEN CUSTMAST-EOF                                        02900006
+                   PERFORM 250-PRINT-SALESREP-LINE                      02910006
+                   PERFORM 240-PRINT-BRANCH-LINE                        02920006
+               WHEN FIRST-RECORD                                        02930006
+                   PERFORM 220-PRINT-CUSTOMER-LINE                      02940006
+                   MOVE "N" TO FIRST-RECORD-SWITCH                      02950006
+                   MOVE CM-SALESREP-NUMBER TO OLD-SALESREP-NUMBER       02951006
+                   MOVE CM-BRANCH-NUMBER TO OLD-BRANCH-NUMBER           02960006
+               WHEN CM-BRANCH-NUMBER > OLD-BRANCH-NUMBER                02970006
+                   PERFORM 250-PRINT-SALESREP-LINE                      02980006
+                   PERFORM 240-PRINT-BRANCH-LINE                        02990006
+                   PERFORM 220-PRINT-CUSTOMER-LINE                      03000006
+                   MOVE CM-SALESREP-NUMBER TO OLD-SALESREP-NUMBER       03010006
+                   MOVE CM-BRANCH-NUMBER TO OLD-BRANCH-NUMBER           03020006
+               WHEN CM-SALESREP-NUMBER > OLD-SALESREP-NUMBER            03030006
+                   PERFORM 250-PRINT-SALESREP-LINE                      03040006
+                   PERFORM 220-PRINT-CUSTOMER-LINE                      03050006
+                   MOVE CM-SALESREP-NUMBER TO OLD-SALESREP-NUMBER       03060006
+               WHEN OTHER                                               03061006
+                   PERFORM 220-PRINT-CUSTOMER-LINE                      03062006
+           END-EVALUATE.                                                03063006
+                                                                        03064006
       **************************************************************    03070000
       * READS A LINE OF THE INPUT FILE AND IF ITS THE LAST ONE     *    03080000
       * UPDATES THE CUSTOMER-EOF-SWITCH (END-OF-FILE)              *    03090000
@@ -479,7 +496,49 @@
            MOVE ZERO TO BRANCH-TOTAL-THIS-YTD.                          04490000
            MOVE ZERO TO BRANCH-TOTAL-LAST-YTD.                          04500000
                                                                         04510000
-      **************************************************************    04520000
+      **************************************************************    04511006
+      * PRINTS THE CURRENT SALESREP'S TOTALS, RAN ONCE FOR EVERY   *    04512006
+      * SALESREP. ALSO CALCULATES THE CHANGE BETWEEN YEARS         *    04513006
+      *************IMPLEMENT*****************************               04513106
+      **************************************************************    04514006
+       250-PRINT-SALESREP-LINE.                                         04515006
+                                                                        04516006
+           *> MOVE THE BRANCH TOTALS TO THE BRANCH TOTAL LINE           04517006
+           MOVE BRANCH-TOTAL-THIS-YTD TO BTL-SALES-THIS-YTD.            04518006
+           MOVE BRANCH-TOTAL-LAST-YTD TO BTL-SALES-LAST-YTD.            04519006
+                                                                        04519106
+           *> CALCULATE THE CHANGE BETWEEN THIS-YTD AND LAST            04519206
+           *> FOR THE CURRENT BRANCH AND ADD IT TO THE TOTAL LINE       04519306
+           COMPUTE CHANGE-AMOUNT =                                      04519406
+               BRANCH-TOTAL-THIS-YTD - BRANCH-TOTAL-LAST-YTD.           04519506
+           MOVE CHANGE-AMOUNT TO BTL-CHANGE-AMOUNT.                     04519606
+                                                                        04519706
+           *> CALCULATE THE CHANGE PERCENT BETWEEN YTD'S                04519806
+           *> THEN MOVE TO THE BRANCH TOTAL LINE                        04519906
+           IF BRANCH-TOTAL-LAST-YTD = ZERO                              04520006
+               MOVE 999.9 TO BTL-CHANGE-PERCENT                         04520106
+           ELSE                                                         04520206
+               COMPUTE BTL-CHANGE-PERCENT ROUNDED =                     04520306
+                   CHANGE-AMOUNT * 100 / BRANCH-TOTAL-LAST-YTD          04520406
+                   ON SIZE ERROR                                        04520506
+                       MOVE 999.9 TO BTL-CHANGE-PERCENT.                04520606
+                                                                        04520706
+           *> PRINT BRANCH LINE                                         04520806
+           MOVE BRANCH-TOTAL-LINE TO PRINT-AREA.                        04520906
+           PERFORM 225-WRITE-REPORT-LINE.                               04521006
+                                                                        04521106
+           *> WRITE A BLANK SPACER LINE                                 04521206
+           MOVE SPACES TO PRINT-AREA.                                   04521306
+           PERFORM 225-WRITE-REPORT-LINE.                               04521406
+                                                                        04521506
+           *> ADD THE BRANCH TOTALS TO THE GRAND TOTALS                 04521606
+           ADD BRANCH-TOTAL-THIS-YTD TO GRAND-TOTAL-THIS-YTD.           04521706
+           ADD BRANCH-TOTAL-LAST-YTD TO GRAND-TOTAL-LAST-YTD.           04521806
+                                                                        04521906
+           *> ZERO OUT THE BRANCH TOTALS                                04522006
+           MOVE ZERO TO BRANCH-TOTAL-THIS-YTD.                          04522106
+           MOVE ZERO TO BRANCH-TOTAL-LAST-YTD.                          04522206
+      **************************************************************    04523000
       * PRINTS THE GRAND TOTALS FOR ALL THE CUSTOMERS, RAN ONCE    *    04530000
       * AT THE VERY END OF THE PROGRAM WHEN ALL CUSTOMERS HAVE     *    04540000
       * BEEN PRINTED                                               *    04550000
