@@ -161,8 +161,8 @@
       * THE NEXT HEADER LINE                                       *    01610000
       **************************************************************    01620000
        01  HEADING-LINE-4.                                              01630000
-           05  FILLER      PIC X(8)    VALUE "BRANCH  ".                01640000
-           05  FILLER      PIC X(8)    VALUE "SLSREP  ".                01650004
+           05  FILLER      PIC X(7)    VALUE "BRANCH ".                 01640016
+           05  FILLER      PIC X(6)    VALUE "SALES ".                  01650016
            05  FILLER      PIC X(20)   VALUE "CUST                ".    01660002
            05  FILLER      PIC X(20)   VALUE "            SALES   ".    01670000
            05  FILLER      PIC X(20)   VALUE "      SALES         ".    01680000
@@ -175,8 +175,8 @@
       * OF COLUMN NAMES THAT STARTED IN THE LAST HEADER LINE       *    01750000
       **************************************************************    01760000
        01  HEADING-LINE-5.                                              01770000
-           05  FILLER      PIC X(8)    VALUE " NUM    ".                01780000
-           05  FILLER      PIC X(9)    VALUE " NUM     ".               01790004
+           05  FILLER      PIC X(8)    VALUE " NUM    ".                01780018
+           05  FILLER      PIC X(5)    VALUE "REP  ".                   01790018
            05  FILLER      PIC X(20)   VALUE "NUM    CUSTOMER NAME".    01800000
            05  FILLER      PIC X(20)   VALUE "           THIS YTD ".    01810000
            05  FILLER      PIC X(20)   VALUE "     LAST YTD       ".    01820000
@@ -199,9 +199,9 @@
        01  CUSTOMER-LINE.                                               01990000
            05  FILLER              PIC X(2)     VALUE SPACE.            02000000
            05  CL-BRANCH-NUMBER    PIC X(2).                            02010000
-           05  FILLER              PIC X(4)     VALUE SPACE.            02020000
+           05  FILLER              PIC X(4)     VALUE SPACE.            02020018
            05  CL-SALESREP-NUMBER  PIC X(2).                            02021012
-           05  FILLER              PIC X(4)     VALUE SPACE.            02022012
+           05  FILLER              PIC X(3)     VALUE SPACE.            02022015
            05  CL-CUSTOMER-NUMBER  PIC 9(5).                            02030000
            05  FILLER              PIC X(2)     VALUE SPACE.            02040000
            05  CL-CUSTOMER-NAME    PIC X(20).                           02050000
@@ -403,6 +403,7 @@
            MOVE CM-CUSTOMER-NUMBER  TO CL-CUSTOMER-NUMBER.              03930000
            MOVE CM-CUSTOMER-NAME    TO CL-CUSTOMER-NAME.                03940000
            MOVE CM-SALES-THIS-YTD   TO CL-SALES-THIS-YTD.               03950000
+           MOVE CM-SALES-LAST-YTD   TO CL-SALES-LAST-YTD.               03960020
                                                                         03970000
            *> CALCULATE THE DIFFERENCE BETWEEN THIS YEAR'S SALES AND    03980000
            *> AND LAST THEN SAVE THESE RESULT TO CHANGE-AMOUNT AND      03990000
@@ -426,9 +427,9 @@
            MOVE CUSTOMER-LINE TO PRINT-AREA.                            04170000
            PERFORM 225-WRITE-REPORT-LINE.                               04180000
                                                                         04190000
-           *> ADD THIS CUSTOMERS SALES TO THE BRANCH TOTALS             04200000
-           ADD CM-SALES-THIS-YTD TO BRANCH-TOTAL-THIS-YTD.              04210000
-           ADD CM-SALES-LAST-YTD TO BRANCH-TOTAL-LAST-YTD.              04220000
+           *> ADD THIS CUSTOMERS SALES TO THE SALESREP TOTALS           04200021
+           ADD CM-SALES-THIS-YTD TO SALESREP-TOTAL-THIS-YTD.            04210021
+           ADD CM-SALES-LAST-YTD TO SALESREP-TOTAL-LAST-YTD.            04220021
                                                                         04230000
       **************************************************************    04240000
       * PRINT ALL THE HEADER LINES TO THE OUTPUT FILE, RAN ONCE    *    04250000
