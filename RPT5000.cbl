@@ -503,45 +503,47 @@
       **************************************************************    04511006
       * PRINTS THE CURRENT SALESREP'S TOTALS, RAN ONCE FOR EVERY   *    04512006
       * SALESREP. ALSO CALCULATES THE CHANGE BETWEEN YEARS         *    04513006
-      *************IMPLEMENT*****************************               04513106
       **************************************************************    04514006
        250-PRINT-SALESREP-LINE.                                         04515006
                                                                         04516006
-           *> MOVE THE BRANCH TOTALS TO THE BRANCH TOTAL LINE           04517006
-           MOVE SALESREP-TOTAL-THIS-YTD TO BTL-SALES-THIS-YTD.          04518009
-           MOVE SALESREP-TOTAL-LAST-YTD TO BTL-SALES-LAST-YTD.          04519009
+           *> MOVE THE SALESREP TOTALS TO THE SALESREP TOTAL LINE       04517010
+           MOVE SALESREP-TOTAL-THIS-YTD TO STL-SALES-THIS-YTD.          04518010
+           MOVE SALESREP-TOTAL-LAST-YTD TO STL-SALES-LAST-YTD.          04519010
                                                                         04519106
            *> CALCULATE THE CHANGE BETWEEN THIS-YTD AND LAST            04519206
-           *> FOR THE CURRENT BRANCH AND ADD IT TO THE TOTAL LINE       04519306
+           *> FOR THE CURRENT SALESREP AND ADD IT TO THE TOTAL LINE     04519310
            COMPUTE CHANGE-AMOUNT =                                      04519406
-               BRANCH-TOTAL-THIS-YTD - BRANCH-TOTAL-LAST-YTD.           04519506
-           MOVE CHANGE-AMOUNT TO BTL-CHANGE-AMOUNT.                     04519606
+               SALESREP-TOTAL-THIS-YTD - SALESREP-TOTAL-LAST-YTD.       04519510
+           MOVE CHANGE-AMOUNT TO STL-CHANGE-AMOUNT.                     04519610
                                                                         04519706
            *> CALCULATE THE CHANGE PERCENT BETWEEN YTD'S                04519806
-           *> THEN MOVE TO THE BRANCH TOTAL LINE                        04519906
-           IF BRANCH-TOTAL-LAST-YTD = ZERO                              04520006
-               MOVE 999.9 TO BTL-CHANGE-PERCENT                         04520106
+           *> THEN MOVE TO THE SALESREP TOTAL LINE                      04519910
+           IF SALESREP-TOTAL-LAST-YTD = ZERO                            04520010
+               MOVE 999.9 TO STL-CHANGE-PERCENT                         04520110
            ELSE                                                         04520206
-               COMPUTE BTL-CHANGE-PERCENT ROUNDED =                     04520306
-                   CHANGE-AMOUNT * 100 / BRANCH-TOTAL-LAST-YTD          04520406
+               COMPUTE STL-CHANGE-PERCENT ROUNDED =                     04520310
+                   CHANGE-AMOUNT * 100 / SALESREP-TOTAL-LAST-YTD        04520410
                    ON SIZE ERROR                                        04520506
-                       MOVE 999.9 TO BTL-CHANGE-PERCENT.                04520606
+                       MOVE 999.9 TO STL-CHANGE-PERCENT.                04520610
                                                                         04520706
-           *> PRINT BRANCH LINE                                         04520806
-           MOVE BRANCH-TOTAL-LINE TO PRINT-AREA.                        04520906
+           *> PRINT SALESREP LINE                                       04520810
+           MOVE SALESREP-TOTAL-LINE TO PRINT-AREA.                      04520910
            PERFORM 225-WRITE-REPORT-LINE.                               04521006
                                                                         04521106
            *> WRITE A BLANK SPACER LINE                                 04521206
            MOVE SPACES TO PRINT-AREA.                                   04521306
            PERFORM 225-WRITE-REPORT-LINE.                               04521406
                                                                         04521506
-           *> ADD THE BRANCH TOTALS TO THE GRAND TOTALS                 04521606
-           ADD BRANCH-TOTAL-THIS-YTD TO GRAND-TOTAL-THIS-YTD.           04521706
-           ADD BRANCH-TOTAL-LAST-YTD TO GRAND-TOTAL-LAST-YTD.           04521806
-                                                                        04521906
-           *> ZERO OUT THE BRANCH TOTALS                                04522006
-           MOVE ZERO TO BRANCH-TOTAL-THIS-YTD.                          04522106
-           MOVE ZERO TO BRANCH-TOTAL-LAST-YTD.                          04522206
+           *> ADD THE SALESREP TOTALS TO THE BRANCH TOTALS              04521610
+           *> WHEN A BRANCH IS PRINTED THEN THOSE TOTALS ARE MOVED      04521710
+           *> TO THE GRAND TOTALS                                       04521810
+           *> CUSTOMER->SALESREP->BRANCH->GRAND-TOTAL                   04521910
+           ADD SALESREP-TOTAL-THIS-YTD TO BRANCH-TOTAL-THIS-YTD.        04522010
+           ADD SALESREP-TOTAL-LAST-YTD TO BRANCH-TOTAL-LAST-YTD.        04522110
+                                                                        04522206
+           *> ZERO OUT THE SALESREP TOTALS                              04522310
+           MOVE ZERO TO SALESREP-TOTAL-THIS-YTD.                        04522410
+           MOVE ZERO TO SALESREP-TOTAL-LAST-YTD.                        04522510
       **************************************************************    04523000
       * PRINTS THE GRAND TOTALS FOR ALL THE CUSTOMERS, RAN ONCE    *    04530000
       * AT THE VERY END OF THE PROGRAM WHEN ALL CUSTOMERS HAVE     *    04540000
