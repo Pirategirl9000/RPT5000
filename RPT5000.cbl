@@ -240,13 +240,13 @@
        01  SALESREP-TOTAL-LINE                                          02167005
            05  FILLER              PIC X(23)    VALUE SPACE.            02168005
            05  FILLER              PIC X(14)    VALUE "SALESREP TOTAL". 02169005
-           05  BTL-SALES-THIS-YTD  PIC ZZZ,ZZ9.99-.                     02169105
+           05  STL-SALES-THIS-YTD  PIC ZZZ,ZZ9.99-.                     02169109
            05  FILLER              PIC X(3)     VALUE SPACE.            02169205
-           05  BTL-SALES-LAST-YTD  PIC ZZZ,ZZ9.99-.                     02169305
+           05  STL-SALES-LAST-YTD  PIC ZZZ,ZZ9.99-.                     02169309
            05  FILLER              PIC X(3)     VALUE SPACE.            02169405
-           05  BTL-CHANGE-AMOUNT   PIC ZZZ,ZZ9.99-.                     02169505
+           05  STL-CHANGE-AMOUNT   PIC ZZZ,ZZ9.99-.                     02169509
            05  FILLER              PIC X(3)     VALUE SPACE.            02169605
-           05  BTL-CHANGE-PERCENT  PIC ZZ9.9-.                          02169705
+           05  STL-CHANGE-PERCENT  PIC ZZ9.9-.                          02169709
            05  FILLER              PIC X(48)    VALUE " *".             02169805
       **************************************************************    02170000
       * STORES THE SECOND GRAND TOTAL LINE                         *    02180000
@@ -508,8 +508,8 @@
        250-PRINT-SALESREP-LINE.                                         04515006
                                                                         04516006
            *> MOVE THE BRANCH TOTALS TO THE BRANCH TOTAL LINE           04517006
-           MOVE BRANCH-TOTAL-THIS-YTD TO BTL-SALES-THIS-YTD.            04518006
-           MOVE BRANCH-TOTAL-LAST-YTD TO BTL-SALES-LAST-YTD.            04519006
+           MOVE SALESREP-TOTAL-THIS-YTD TO BTL-SALES-THIS-YTD.          04518009
+           MOVE SALESREP-TOTAL-LAST-YTD TO BTL-SALES-LAST-YTD.          04519009
                                                                         04519106
            *> CALCULATE THE CHANGE BETWEEN THIS-YTD AND LAST            04519206
            *> FOR THE CURRENT BRANCH AND ADD IT TO THE TOTAL LINE       04519306
