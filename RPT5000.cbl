@@ -131,7 +131,7 @@
            05  FILLER          PIC X(16)   VALUE SPACE.                 01310000
            05  FILLER          PIC X(20)   VALUE "YEAR-TO-DATE SALES R".01320000
            05  FILLER          PIC X(10)   VALUE "EPORT     ".          01330000
-           05  FILLER          PIC X(15)   VALUE SPACE.                 01340000
+           05  FILLER          PIC X(19)   VALUE SPACE.                 01340031
            05  FILLER          PIC X(8)    VALUE "  PAGE: ".            01350000
            05  HL1-PAGE-NUMBER PIC ZZZ9.                                01360000
            05  FILLER          PIC X(39)   VALUE SPACE.                 01370000
@@ -145,7 +145,7 @@
            05  HL2-HOURS       PIC 9(2).                                01450000
            05  FILLER          PIC X(1)    VALUE ":".                   01460000
            05  HL2-MINUTES     PIC 9(2).                                01470000
-           05  FILLER          PIC X(68)   VALUE SPACE.                 01480000
+           05  FILLER          PIC X(72)   VALUE SPACE.                 01480031
            05  FILLER          PIC X(10)   VALUE "RPT5000".             01490001
            05  FILLER          PIC X(39)   VALUE SPACE.                 01500000
                                                                         01510000
