@@ -200,6 +200,8 @@
            05  FILLER              PIC X(2)     VALUE SPACE.            02000000
            05  CL-BRANCH-NUMBER    PIC X(2).                            02010000
            05  FILLER              PIC X(4)     VALUE SPACE.            02020000
+           05  CL-SALESREP-NUMBER  PIC X(2).                            02021012
+           05  FILLER              PIC X(4)     VALUE SPACE.            02022012
            05  CL-CUSTOMER-NUMBER  PIC 9(5).                            02030000
            05  FILLER              PIC X(2)     VALUE SPACE.            02040000
            05  CL-CUSTOMER-NAME    PIC X(20).                           02050000
@@ -377,23 +379,30 @@
            IF LINE-COUNT >= LINES-ON-PAGE                               03770000
                PERFORM 230-PRINT-HEADING-LINES.                         03780000
                                                                         03790000
-           *> IF THIS IS THE FIRST RECORD OR THE FIRST RECORD OF THIS   03800000
-           *> BRANCH THEN WE MOVE THE BRANCH NUMBER TO BE PRINTED       03810000
-           *> OTHERWISE WE MOVE SPACES TO THE BRANCH NUMBER ITEM        03820000
-           IF FIRST-RECORD-SWITCH = "Y"                                 03830000
-               MOVE CM-BRANCH-NUMBER TO CL-BRANCH-NUMBER                03840000
-           ELSE                                                         03850000
-               IF CM-BRANCH-NUMBER > OLD-BRANCH-NUMBER                  03860000
-                   MOVE CM-BRANCH-NUMBER TO CL-BRANCH-NUMBER            03870000
-               ELSE                                                     03880000
-                   MOVE SPACES TO CL-BRANCH-NUMBER.                     03890000
+           *> PERFROMS DUTIES BASED ON THE ENTRY                        03800012
+           *>  * IF IT'S THE FIRST RECORD PRINT THE BRANCH NUMBER       03810012
+           *>    AND THE SALESREP NUMBER                                03820012
+           *>  * IF IT'S A NEW BRANCH PRINT THE BRANCH NUMBER           03820112
+           *>  * IF IT'S A NEW SALES REP PRINT THE SALESREP NUMBER      03820212
+           *>  * OTHERWISE PRINT SPACES IN THOSE LINES FOR PADDING      03820312
+           EVALUATE TRUE                                                03821012
+               WHEN FIRST-RECORD                                        03822012
+                   MOVE CM-BRANCH-NUMBER TO CL-BRANCH-NUMBER            03822112
+                   MOVE CM-SALESREP-NUMBER TO CL-SALESREP-NUMBER        03822212
+               WHEN CM-BRANCH-NUMBER > OLD-BRANCH-NUMBER                03823012
+                   MOVE CM-BRANCH-NUMBER TO CL-BRANCH-NUMBER            03824012
+               WHEN CM-SALESREP-NUMBER > OLD-SALESREP-NUMBER            03825012
+                   MOVE CM-SALESREP-NUMBER TO CL-SALESREP-NUMBER        03826012
+               WHEN OTHER                                               03827012
+                   MOVE SPACES TO CL-BRANCH-NUMBER                      03828012
+                   MOVE SPACES TO CL-SALESREP-NUMBER                    03829012
+           END-EVALUATE.                                                03830012
                                                                         03900000
            *> MOVE THE DATA PULLED FROM THE INPUT FILE INTO THE         03910000
            *> CUSTOMER LINE RECORD FOR LATER OUTPUT                     03920000
            MOVE CM-CUSTOMER-NUMBER  TO CL-CUSTOMER-NUMBER.              03930000
            MOVE CM-CUSTOMER-NAME    TO CL-CUSTOMER-NAME.                03940000
            MOVE CM-SALES-THIS-YTD   TO CL-SALES-THIS-YTD.               03950000
-           MOVE CM-SALES-LAST-YTD   TO CL-SALES-LAST-YTD.               03960000
                                                                         03970000
            *> CALCULATE THE DIFFERENCE BETWEEN THIS YEAR'S SALES AND    03980000
            *> AND LAST THEN SAVE THESE RESULT TO CHANGE-AMOUNT AND      03990000
