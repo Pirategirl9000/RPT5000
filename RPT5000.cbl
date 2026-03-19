@@ -222,7 +222,7 @@
       * USED FOR OUTPUTTING                                        *    02200000
       **************************************************************    02210000
        01  BRANCH-TOTAL-LINE.                                           02220000
-           05  FILLER              PIC X(23)    VALUE SPACE.            02230000
+           05  FILLER              PIC X(28)    VALUE SPACE.            02230024
            05  FILLER              PIC X(14)    VALUE "BRANCH TOTAL".   02240000
            05  BTL-SALES-THIS-YTD  PIC ZZZ,ZZ9.99-.                     02250000
            05  FILLER              PIC X(3)     VALUE SPACE.            02260000
@@ -240,7 +240,7 @@
       * USED FOR OUTPUTTING                                        *    02380005
       **************************************************************    02390005
        01  SALESREP-TOTAL-LINE.                                         02400011
-           05  FILLER              PIC X(23)    VALUE SPACE.            02410005
+           05  FILLER              PIC X(28)    VALUE SPACE.            02410024
            05  FILLER              PIC X(14)    VALUE "SALESREP TOTAL". 02420005
            05  STL-SALES-THIS-YTD  PIC ZZZ,ZZ9.99-.                     02430009
            05  FILLER              PIC X(3)     VALUE SPACE.            02440005
@@ -257,7 +257,7 @@
       * AND THE PERCENTAGE DIFFERENCE - FOR OUTPUTTING             *    02550000
       **************************************************************    02560000
        01  GRAND-TOTAL-LINE.                                            02570000
-           05  FILLER              PIC X(23)    VALUE SPACE.            02580000
+           05  FILLER              PIC X(23)    VALUE SPACE.            02580023
            05  FILLER              PIC X(12)    VALUE "GRAND TOTAL ".   02590000
            05  GTL-SALES-THIS-YTD  PIC Z,ZZZ,ZZ9.99-.                   02600000
            05  FILLER              PIC X(1)     VALUE SPACE.            02610000
