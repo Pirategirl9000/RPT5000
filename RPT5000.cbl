@@ -539,10 +539,6 @@
            MOVE SALESREP-TOTAL-LINE TO PRINT-AREA.                      05300010
            PERFORM 225-WRITE-REPORT-LINE.                               05310006
                                                                         05320006
-           *> WRITE A BLANK SPACER LINE                                 05330006
-           MOVE SPACES TO PRINT-AREA.                                   05340006
-           PERFORM 225-WRITE-REPORT-LINE.                               05350006
-                                                                        05360006
            *> ADD THE SALESREP TOTALS TO THE BRANCH TOTALS              05370010
            *> WHEN A BRANCH IS PRINTED THEN THOSE TOTALS ARE MOVED      05380010
            *> TO THE GRAND TOTALS                                       05390010
