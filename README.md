@@ -30,7 +30,7 @@ This program uses a dataset to produce a report based on customer sales reports.
 ### Notable Data Items & Records
 * `CUSTMAST-EOF-SWITCH` - Marks when the end of the file has been reached
 * `PRINT-FIELDS` - Record containing information about the page including lines per page, current line, and page number
-* `TOTAL-FIELDS` - Record containing information about the grand totals for last YTD and this YTD
+* `TOTAL-FIELDS` - Record containing information about the subtotals and grand totals for last YTD and this YTD
 * `CURRENT-DATE-AND-TIME` - Record used for grabbing the current data and time via the CURRENT-DATE-AND-TIME function
 * `CHANGE-AMOUNT` - Contains the difference in sales between last YTD and this YTD
 * `HEADING-LINE-1` THRU `HEADING-LINE-6` - Records 130 character long used for outputting header lines for each page
@@ -41,7 +41,7 @@ This program uses a dataset to produce a report based on customer sales reports.
   * `CL-SALES-LAST-YTD` - Sales last year-to-date
   * `CL-CHANGE-AMOUNT` - The difference between this year and last year's sales
   * `CL-CHANGE-PERCENT` - The percent difference between this year and last year's sales
-* `GRAND-TOTAL-LINE-` AND `BRANCH-TOTAL-LINE` - Record used for outputting the grandtotal and subtotal
+* `GRAND-TOTAL-LINE-` AND `BRANCH-TOTAL-LINE` AND `SALESREP-TOTAL-LINE` - Record used for outputting the grandtotal and subtotal
   * `SALES-THIS-YTD` - Total sales for this year-to-date
   * `SALES-LAST-YTD` - Total sales last year-to-date
   * `CHANGE-AMOUNT` - The total difference between last year's sales and this years
@@ -50,8 +50,7 @@ This program uses a dataset to produce a report based on customer sales reports.
 ### Notable Paragraphs
 * `000-PREPARE-SALES-REPORT`
   * Opens and closes the IO files and delgates the work for reading/writing them
-  * If branch number of current customer is greater than the branch number of the last customer calls for the printing of
-  a branch line 
+  * Serves as the entry point for the program
 * `100-FORMAT-REPORT-HEADING`
   * Formats the header file by retrieving the date and moving it to the appropriate header lines
 * `200-PREPARE-SALES-LINES`
@@ -59,11 +58,14 @@ This program uses a dataset to produce a report based on customer sales reports.
 * `210-READ-CUSTOMER-RECORD`
   * Reads the next line of the customer records and if it's the end of file it moves 'Y' to `CUSTMAST-EOF-SWITCH`
 * `220-PRINT-CUSTOMER-LINE`
-  * If this line is on the next page, reprints the header lines, then performs calculations for determining the values for the customer line before outputting them with the other customer information gathered from the input file
+  * Performs calculations for determining the values for the customer line before outputting them with the other customer information gathered from the input file
+  * Also prints the corresponding subtotals if it is a new branch or salesrep
 * `230-PRINT-HEADING-LINES`
   * Moves to the next page by resetting line count, incrementing page count, and reprinting header lines
 * `240-PRINT-BRANCH-LINE`
-  * Prints the current subtotals for this branch and adds them to the grand totals  
+  * Prints the current subtotals for this branch and adds them to the grand totals
+* `250-PRINT-SALESREP-LINE`
+  * Prints the current subtotals for this salesrep and adds them to the branch totals
 * `300-PRINT-GRAND-TOTALS`
   * Calculates and prints the grand totals
  
