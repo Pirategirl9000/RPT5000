@@ -14,9 +14,10 @@
 This program uses a dataset to produce a report based on customer sales reports. The resulting report will be stored to a new dataset. The report details the spendings for this year and last as well as the difference between the two for each customer. Also produces subtotals for both the branch and salesrep as well as grand-totals for the report
 
 ## New Concepts Used
-* Calculating Subtotals
-* DRY - Don't Repeat Yourself
-* Output Reformatting
+* Calculating a new subtotal
+* Evaluate statements
+* Logical Negation
+* 88 level data numbers
 
 ## Script Breakdown
 
